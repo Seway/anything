@@ -1,0 +1,7 @@
+build/*.js
+src/assets
+public
+dist
+webpack
+node_modules
+yarn.lock
