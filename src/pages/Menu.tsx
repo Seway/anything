@@ -1,7 +1,9 @@
-import { Button, Drawer } from "antd";
+import { Drawer } from "antd";
 import { useState } from "react";
 import React from "react";
 import { Link } from "react-router-dom";
+
+import "./Menu.less";
 
 export default () => {
   const [visible, setVisible] = useState(false);
@@ -16,9 +18,10 @@ export default () => {
 
   return (
     <>
-      <Button type="primary" onClick={showDrawer}>
+      <div className="Menu-button" onClick={showDrawer}>
         Open
-      </Button>
+      </div>
+
       <Drawer
         title="Basic Drawer"
         placement="right"
