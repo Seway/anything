@@ -12,10 +12,24 @@ export default () => {
     setVisible(true);
   };
 
+  const closeDrawer = () => {
+    setVisible(false);
+  };
   const onClose = () => {
     setVisible(false);
   };
-
+  const clock = null;
+  const switchDrawer = (val) => {
+    if (clock) clearTimeout(clock);
+    clock=setTimeout(() => {
+      val ? closeDrawer() : showDrawer();
+    }, 200);
+  };
+  window.addEventListener("keydown", (event) => {
+    if (event.ctrlKey && event.keyCode === 66) {
+      switchDrawer(visible);
+    }
+  });
   return (
     <>
       <div className="Menu-button" onClick={showDrawer}>
