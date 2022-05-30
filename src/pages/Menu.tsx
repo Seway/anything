@@ -1,6 +1,7 @@
-import { Button, Drawer } from 'antd';
-import { useState } from 'react';
-import React from 'react';
+import { Button, Drawer } from "antd";
+import { useState } from "react";
+import React from "react";
+import { Link } from "react-router-dom";
 
 export default () => {
   const [visible, setVisible] = useState(false);
@@ -18,10 +19,18 @@ export default () => {
       <Button type="primary" onClick={showDrawer}>
         Open
       </Button>
-      <Drawer title="Basic Drawer" placement="right" onClose={onClose} visible={visible}>
-        <p>Some contents...</p>
-        <p>Some contents...</p>
-        <p>Some contents...</p>
+      <Drawer
+        title="Basic Drawer"
+        placement="right"
+        onClose={onClose}
+        visible={visible}
+      >
+        <li>
+          <Link to="/">home</Link>
+        </li>
+        <li>
+          <Link to="/about">about</Link>
+        </li>
       </Drawer>
     </>
   );
