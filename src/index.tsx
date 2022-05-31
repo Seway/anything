@@ -2,37 +2,23 @@
  * @Description:
  * @Version: 1.0
  * @Author: chengweihang
- * @Date: 2022-05-30 14:44:03
+ * @Date: 2022-05-30 16:40:01
  * @LastEditors: chengweihang
- * @LastEditTime: 2022-05-30 16:19:38
+ * @LastEditTime: 2022-05-31 14:41:31
  */
-// webpack的入口文件：src/index.tsx
-
 import React from "react";
 import ReactDOM from "react-dom";
-import { Routes, Route, BrowserRouter } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
 
 import "./index.less";
 
-import Menu from "./pages/Menu";
-import Home from "./pages/Home";
-import About from "./pages/About";
-
-function App() {
+import Main from "./pages/Main";
+const App = () => {
   return (
-    <div className="App">
-      <Routes>
-        <Route path="/" element={<Home />}></Route>
-        <Route path="/about" element={<About />}></Route>
-      </Routes>
-      <Menu></Menu>
-    </div>
+    <BrowserRouter>
+      <Main />
+    </BrowserRouter>
   );
-}
+};
 
-ReactDOM.render(
-  <BrowserRouter>
-    <App />
-  </BrowserRouter>,
-  document.getElementById("root")
-);
+ReactDOM.render(<App />, document.getElementById("root"));
