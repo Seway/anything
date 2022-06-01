@@ -4,20 +4,22 @@
  * @Author: chengweihang
  * @Date: 2022-05-30 16:40:01
  * @LastEditors: chengweihang
- * @LastEditTime: 2022-05-31 14:41:31
+ * @LastEditTime: 2022-06-01 10:14:14
  */
 import React from "react";
 import ReactDOM from "react-dom";
-import { BrowserRouter } from "react-router-dom";
+import { HashRouter, Routes,Route } from "react-router-dom";
 
 import "./index.less";
 
 import Main from "./pages/Main";
 const App = () => {
   return (
-    <BrowserRouter>
-      <Main />
-    </BrowserRouter>
+    <HashRouter>
+      <Routes>
+        <Route path="/*" element={<Main />}></Route>
+      </Routes>
+    </HashRouter>
   );
 };
 

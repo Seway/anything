@@ -4,7 +4,7 @@
  * @Author: chengweihang
  * @Date: 2022-05-30 16:40:01
  * @LastEditors: chengweihang
- * @LastEditTime: 2022-05-31 14:42:08
+ * @LastEditTime: 2022-06-01 10:07:02
  */
 import React, { useState } from "react";
 import { Routes, Route } from "react-router-dom";
@@ -54,7 +54,7 @@ export default () => {
             <Breadcrumb.Item>Bill</Breadcrumb.Item>
           </Breadcrumb>
           <Routes>
-            <Route path="/about" element={<About />}></Route>
+            <Route path="about" element={<About />}></Route>
           </Routes>
         </Content>
         <Footer
