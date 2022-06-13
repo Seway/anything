@@ -1,0 +1,45 @@
+.paint {
+  background-color: gainsboro;
+  width: 100%;
+  height: 100%;
+  &-node {
+    width: 100px;
+    height: 100px;
+    background-color: #29e;
+    border-radius: 0.75em;
+    position: relative;
+    user-select: none;
+    cursor: pointer;
+    &-left,
+    &-right {
+      position: absolute;
+      border-radius: 0.75em;
+      width: 20px;
+      &-single {
+        width: 20px;
+        height: 20px;
+        border-radius: 0.75em;
+      }
+    }
+    &-left {
+      left: -20px;
+      &-single {
+        background-color: rgba(133, 238, 34, 0.729);
+      }
+    }
+    &-right {
+      right: -20px;
+      &-single {
+        background-color: rgba(238, 34, 187, 0.729);
+      }
+    }
+  }
+  &-list{
+      position: absolute;
+      right: 0;
+      top:0;
+      border: 1px solid black;
+      background-color: #29e;
+      color: white;
+  }
+}
