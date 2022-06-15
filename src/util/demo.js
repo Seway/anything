@@ -191,12 +191,12 @@ export default () => {
                     target,
                 } = edge.store.data;
                 console.log(edge);
-                const sourceTask = center.findNode(source.cell),
-                    targetTask = center.findNode(target.cell);
-                sourceTask.addTask({
-                    id: targetTask.id,
+                const sourceNode = center.findNode(source.cell),
+                    targetNode = center.findNode(target.cell);
+                sourceNode.addTargetAction({
+                    id: targetNode.id,
                     actionName: target.port,
-                    eventName:source.port
+                    eventName: source.port
                 });
                 return true;
             }
@@ -231,8 +231,8 @@ export default () => {
                         } = cell;
 
                         //删除模型连线
-                        const obj = center.findNode(source.cell);
-                        obj.deleteTask({
+                        const curNode = center.findNode(source.cell);
+                        curNode.deleteTargetAction({
                             id: target.cell,
                             actionName: target.port
                         });
@@ -357,8 +357,8 @@ export default () => {
                             }
                         });
                         //触发模型
-                        let target = center.findNode(cell.id);
-                        target.execute({
+                        let curNode = center.findNode(cell.id);
+                        curNode.execute({
                             data: 1,
                             actionName: '单击'
                         });
@@ -405,10 +405,12 @@ export default () => {
         }
         if (event.ctrlKey & event.keyCode == 67) {
             console.log('新建 ctrl+c');
+            const type = prompt("请输入类型"); //在页面上弹出提示对话框，将用户输入的结果赋给变量name
+            console.log(type);
             //后台新建
-            const newTask = center.createNode('action');
+            const newNode = center.createNode(type);
             //视图新建
-            graph.resetCells([...graph.getNodes(), ...graph.getEdges(), graph.createNode(newTask.viewData)]);
+            graph.resetCells([...graph.getNodes(), ...graph.getEdges(), graph.createNode(newNode.viewData)]);
             event.preventDefault();
 
         }
