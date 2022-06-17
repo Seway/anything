@@ -1,11 +1,17 @@
-.top{
-    width: 100%;
-    height: 100%;
+.top {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+#miniMap {
+  position: absolute;
+  right: 0;
+  top: 0;
 }
 .paint {
   background-color: gainsboro;
-  width: 100%;
-  height: 100%;
+  width: 1000px;
+  height: 600px;
   position: relative;
   &-node {
     width: 100px;
@@ -39,12 +45,12 @@
       }
     }
   }
-  &-list{
-      position: absolute;
-      right: 0;
-      top:0;
-      border: 1px solid black;
-      background-color: #29e;
-      color: white;
+  &-list {
+    position: absolute;
+    right: 0;
+    top: 0;
+    border: 1px solid black;
+    background-color: #29e;
+    color: white;
   }
 }

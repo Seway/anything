@@ -4,7 +4,7 @@
  * @Author: chengweihang
  * @Date: 2022-05-30 16:40:01
  * @LastEditors: chengweihang
- * @LastEditTime: 2022-06-15 16:46:31
+ * @LastEditTime: 2022-06-17 10:17:12
  */
 import React, { useState } from "react";
 
@@ -35,6 +35,7 @@ export default () => {
         <option value="judge">judge</option>
       </select>
       <div className="paint" id="container"></div>
+      <div  id="miniMap"></div>
     </div>
   );
 };

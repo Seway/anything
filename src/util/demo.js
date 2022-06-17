@@ -144,6 +144,28 @@ export default () => {
     //配置画布
     const graph = new Graph({
         container: document.getElementById('container'),
+        snapline: true,
+        mousewheel: {
+            enabled: true,
+            modifiers: ['ctrl', 'meta'],
+        },
+        selecting: {
+            enabled: true,
+            rubberband: true, // 启用框选
+            multiple: true,
+            movable: true,
+            showNodeSelectionBox: true
+        },
+        scroller: {
+            enabled: true,
+            pannable: true,
+            autoResize: false,
+            padding: 0
+        },
+        minimap: {
+            enabled: true,
+            container: document.getElementById('miniMap'),
+        },
         connecting: {
             snap: true,
             allowBlank: false,
@@ -153,10 +175,9 @@ export default () => {
             // connectionPoint: 'boundary',
 
             router: {
-                name: 'manhattan',
+                name: 'er',
                 args: {
-                    startDirections: ['right'],
-                    endDirections: ['left'],
+                    direction: 'L'
                 },
             },
             //创建边的工具
@@ -388,10 +409,10 @@ export default () => {
         cells.push(graph.createEdge(item));
     });
     graph.resetCells(cells);
-    graph.zoomToFit({
-        padding: 10,
-        maxScale: 1
-    });
+    // graph.zoomToFit({
+    //     padding: 10,
+    //     maxScale: 1
+    // });
     //根据数据初始化时渲染 end
 
     //临时事件监听 start
