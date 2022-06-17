@@ -214,7 +214,16 @@ export default () => {
                     source,
                     target,
                 } = edge.store.data;
-                console.log(edge);
+                // console.log(edge, graph.getEdges());
+                const index = graph.getEdges().findIndex(item => {
+                    return item.id != edge.id &&
+                        item.store.data.source.cell === source.cell &&
+                        item.store.data.source.port === source.port &&
+                        item.store.data.target.cell === target.cell &&
+                        item.store.data.target.cell === target.cell;
+                });
+                // console.log(index);
+                if (index !== -1) return false;
                 const sourceNode = center.findNode(source.cell),
                     targetNode = center.findNode(target.cell);
                 sourceNode.addTargetAction({
@@ -402,6 +411,13 @@ export default () => {
     });
     //点动作 end
 
+
+    graph.on('node:click', ({
+        node
+    }) => {
+        console.log(node);
+        //向系统抛出事件
+    });
 
     //根据数据初始化时渲染 start
     const cells = [];

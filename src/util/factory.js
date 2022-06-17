@@ -4,7 +4,7 @@
  * @Author: chengweihang
  * @Date: 2022-06-09 14:25:40
  * @LastEditors: chengweihang
- * @LastEditTime: 2022-06-17 16:19:43
+ * @LastEditTime: 2022-06-17 16:24:42
  */
 
 const pending = 'pending';
@@ -296,7 +296,7 @@ class NodeEnvironment {
         this.nodeList.push(newNode);
         return newNode;
     }
-    createFakeNode(type) {
+    createDndNode(type) {
         let newNode = null;
         const func = this.nodeMap.get(type);
         newNode = new func();

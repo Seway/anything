@@ -4,7 +4,7 @@
  * @Author: chengweihang
  * @Date: 2022-05-30 16:40:01
  * @LastEditors: chengweihang
- * @LastEditTime: 2022-06-17 16:21:34
+ * @LastEditTime: 2022-06-17 16:47:25
  */
 import React, { useState } from "react";
 
@@ -34,7 +34,7 @@ export default () => {
   const startDrag = (e) => {
     const target = e.currentTarget;
     const type = target.getAttribute("data-type");
-    const newNode = center.createFakeNode(type);
+    const newNode = center.createDndNode(type);
     const node = graph.createNode(newNode.viewData);
 
     dnd.start(node, e.nativeEvent);
