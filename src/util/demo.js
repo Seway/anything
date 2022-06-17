@@ -1,6 +1,7 @@
 import {
     Graph,
-    Shape
+    Shape,
+    Addon
 } from '@antv/x6';
 
 
@@ -10,6 +11,8 @@ const LINE_HEIGHT = 24;
 const NODE_WIDTH = 150;
 
 const center = new NodeEnvironment(localStorage.getItem('center') ? JSON.parse(localStorage.getItem('center')) : []);
+
+
 
 export default () => {
     //初始化数据
@@ -447,7 +450,28 @@ export default () => {
     };
     //临时事件监听 end
     window._graph = graph;
-    return graph;
+    //Dnd
+    const dnd = new Addon.Dnd({
+        target: graph,
+        scaled: false,
+        animation: true,
+        getDragNode: (node) => node.clone({
+            keepId: true
+        }),
+        getDropNode: (node) => node.clone({
+            keepId: true
+        }),
+        validateNode(droppingNode, options) {
+            console.log(droppingNode, options);
+            center.setDndNode();
+            return true;
+        },
+    });
+
+    return {
+        graph,
+        dnd
+    };
 };
 export {
     center

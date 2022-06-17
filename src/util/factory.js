@@ -4,7 +4,7 @@
  * @Author: chengweihang
  * @Date: 2022-06-09 14:25:40
  * @LastEditors: chengweihang
- * @LastEditTime: 2022-06-15 16:11:14
+ * @LastEditTime: 2022-06-17 16:19:43
  */
 
 const pending = 'pending';
@@ -281,6 +281,8 @@ class NodeEnvironment {
     constructor(list = []) {
         this.nodeList = [];
         this.nodeMap = new Map(classList);
+
+        this.dndNode = null;
         list.forEach(item => {
             this.createNode(item.type, item);
         });
@@ -290,24 +292,23 @@ class NodeEnvironment {
         const func = this.nodeMap.get(type);
         if (data === undefined) newNode = new func();
         else newNode = new func(data);
-        // switch (type) {
-        //     case 'action':
-        //         if (data === undefined)
-        //             newNode = new ActionNode();
-        //         else
-        //             newNode = new ActionNode(data);
-
-        //         break;
-        //     case 'enter':
-        //         if (data === undefined)
-        //             newNode = new EnterTask();
-        //         else
-        //             newNode = new EnterTask(data);
-        //         break;
-        // }
         newNode.parentFind = this.findNode.bind(this);
         this.nodeList.push(newNode);
         return newNode;
+    }
+    createFakeNode(type) {
+        let newNode = null;
+        const func = this.nodeMap.get(type);
+        newNode = new func();
+        newNode.parentFind = this.findNode.bind(this);
+
+        this.dndNode = newNode;
+        return newNode;
+    }
+    setDndNode() {
+        this.nodeList.push(this.dndNode);
+        this.dndNode = null;
+
     }
     findNode(id) {
         return this.nodeList.find((item) => item.id == id);
