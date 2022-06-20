@@ -4,7 +4,7 @@
  * @Author: chengweihang
  * @Date: 2022-06-09 14:25:40
  * @LastEditors: chengweihang
- * @LastEditTime: 2022-06-20 14:30:55
+ * @LastEditTime: 2022-06-20 15:21:55
  */
 
 const pending = 'pending';
@@ -36,6 +36,36 @@ const getPortsData = (id, actionList, eventList) => {
         };
     }));
     return ports;
+};
+const viewDataMap = new Map(
+    [
+        ['action', {
+            actionList: ['显示', '隐藏'],
+            eventList: ['数据请求完成', '单击', '初始化完成']
+        }],
+        ['judge', {
+            actionList: ['判断'],
+            eventList: ['是', '否']
+        }]
+    ]
+);
+const getViewData = ({
+    id,
+    type
+}) => {
+    const viewData = viewDataMap.get(type);
+    return {
+        id: id,
+        shape: "er-rect",
+        label: "组件" + id,
+        width: 150,
+        height: 24,
+        position: {
+            x: 24,
+            y: 150,
+        },
+        ports: getPortsData(id, viewData.actionList, viewData.eventList)
+    };
 };
 class Node {
     constructor({
@@ -174,18 +204,18 @@ class ActionNode extends Node {
             type: 'action',
             ...data
         });
-        this.viewData = {
-            id: this.id,
-            shape: "er-rect",
-            label: "组件" + this.id,
-            width: 150,
-            height: 24,
-            position: {
-                x: 24,
-                y: 150,
-            },
-            ports: getPortsData(this.id, ['显示', '隐藏'], ['数据请求完成', '单击', '初始化完成'])
-        };
+        // this.viewData = {
+        //     id: this.id,
+        //     shape: "er-rect",
+        //     label: "组件" + this.id,
+        //     width: 150,
+        //     height: 24,
+        //     position: {
+        //         x: 24,
+        //         y: 150,
+        //     },
+        //     ports: getPortsData(this.id, ['显示', '隐藏'], ['数据请求完成', '单击', '初始化完成'])
+        // };
     }
     execute_inner({
         // actionName
@@ -224,18 +254,18 @@ class JudgeTask extends Node {
             type: 'judge',
             ...data
         });
-        this.viewData = {
-            id: this.id,
-            shape: "er-rect",
-            label: "判断" + this.id,
-            width: 150,
-            height: 24,
-            position: {
-                x: 24,
-                y: 150,
-            },
-            ports: getPortsData(this.id, ['判断'], ['是', '否'])
-        };
+        // this.viewData = {
+        //     id: this.id,
+        //     shape: "er-rect",
+        //     label: "判断" + this.id,
+        //     width: 150,
+        //     height: 24,
+        //     position: {
+        //         x: 24,
+        //         y: 150,
+        //     },
+        //     ports: getPortsData(this.id, ['判断'], ['是', '否'])
+        // };
         // this.fulTask = [];
         // this.rejTask = [];
     }
@@ -295,7 +325,13 @@ class NodeEnvironment {
         else newNode = new func(data);
         newNode.parentFind = this.findNode.bind(this);
         this.nodeList.push(newNode);
-        return newNode;
+        return {
+            ...newNode,
+            viewData: getViewData({
+                id: newNode.id,
+                type: newNode.type
+            })
+        };
     }
     createDndNode(type) {
         let newNode = null;
@@ -304,7 +340,13 @@ class NodeEnvironment {
         newNode.parentFind = this.findNode.bind(this);
 
         this.dndNode = newNode;
-        return newNode;
+        return {
+            ...newNode,
+            viewData: getViewData({
+                id: newNode.id,
+                type: newNode.type
+            })
+        };
     }
     setDndNode() {
         this.nodeList.push(this.dndNode);
