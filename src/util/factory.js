@@ -4,7 +4,7 @@
  * @Author: chengweihang
  * @Date: 2022-06-09 14:25:40
  * @LastEditors: chengweihang
- * @LastEditTime: 2022-06-20 15:32:35
+ * @LastEditTime: 2022-06-20 15:44:39
  */
 
 const pending = 'pending';
@@ -323,13 +323,17 @@ class NodeEnvironment {
         newNode.parentFind = this.findNode.bind(this);
 
         this.dndNode = newNode;
-        return {
-            ...newNode,
-            viewData: getViewData({
-                id: newNode.id,
-                type: newNode.type
-            })
-        };
+
+        if (newNode.viewData === undefined)
+            return {
+                ...newNode,
+                viewData: getViewData({
+                    id: newNode.id,
+                    type: newNode.type
+                })
+            };
+        //允许部分Node运行态自定义view层样式
+        else return newNode;
     }
     //拖拽节点放置后,回调
     setDndNode() {
