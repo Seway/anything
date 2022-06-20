@@ -4,7 +4,7 @@
  * @Author: chengweihang
  * @Date: 2022-06-09 14:25:40
  * @LastEditors: chengweihang
- * @LastEditTime: 2022-06-17 16:24:42
+ * @LastEditTime: 2022-06-20 14:30:55
  */
 
 const pending = 'pending';
@@ -188,16 +188,17 @@ class ActionNode extends Node {
         };
     }
     execute_inner({
-        actionName
+        // actionName
     }) {
         //$widgetManager.$emit(this.action.name, this.id)
-        console.log(`通知任务中心 组件'${this.id}' 触发'${actionName}'事件 `);
+        // console.log(`通知任务中心 组件'${this.id}' 触发'${actionName}'事件 `);
     }
     filterNextTargetAction({
         actionName
     }) {
-        const reg = /\[\]]$/;
-        console.log(reg.exec(actionName));
+        const reg = /\[.*\]$/,
+            name = actionName.match(reg);
+        if (name != null) console.log(name[0].slice(1, name[0].length - 1));
         return this.targetActionList.filter(item => item.eventName.includes('单击'));
     }
 }
@@ -212,7 +213,7 @@ class EnterTask extends Node {
         };
     }
     execute_inner(actionName) {
-        console.log(`通知任务中心 组件'${this.id}' 触发'${this.action.name}'事件 `);
+        // console.log(`通知任务中心 组件'${this.id}' 触发'${this.action.name}'事件 `);
         return actionName;
     }
 }
@@ -250,7 +251,7 @@ class JudgeTask extends Node {
     filterNextTargetAction({
         result
     }) {
-        console.log(result);
+        // console.log(result);
         if (result.result)
             return this.targetActionList.filter(item => item.eventName.includes('是'));
         return this.targetActionList.filter(item => item.eventName.includes('否'));
@@ -328,12 +329,3 @@ export {
     JudgeTask,
     FilterTask
 };
-
-
-//如何实现链接？
-//step
-// 1.发起者 触发mouseDown事件,得到发起者指针
-// 2.接受者 触发mouseUp事件，得到target，actionName 
-// function connect(){
-
-// }

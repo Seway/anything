@@ -4,15 +4,15 @@
  * @Author: chengweihang
  * @Date: 2022-05-30 16:40:01
  * @LastEditors: chengweihang
- * @LastEditTime: 2022-06-17 16:47:25
+ * @LastEditTime: 2022-06-20 15:04:27
  */
 import React, { useState } from "react";
 
 import setGraph, { center } from "../util/demo";
 import "./paint.less";
 
-let graph = null;
-let dnd = null;
+let graph;
+let dnd;
 setTimeout(() => {
   const result = setGraph();
   graph = result.graph;

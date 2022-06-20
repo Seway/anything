@@ -147,7 +147,7 @@ export default () => {
     //配置画布
     const graph = new Graph({
         container: document.getElementById('container'),
-        snapline: true,
+        snapline: false,
         mousewheel: {
             enabled: true,
             modifiers: ['ctrl', 'meta'],

@@ -4,20 +4,28 @@
  * @Author: chengweihang
  * @Date: 2022-05-30 16:40:01
  * @LastEditors: chengweihang
- * @LastEditTime: 2022-06-13 10:45:14
+ * @LastEditTime: 2022-06-20 14:58:14
  */
 import React, { useState } from "react";
 import { Routes, Route } from "react-router-dom";
-import { Link } from "react-router-dom";
-import { Layout, Menu, Breadcrumb } from "antd";
+// import { Link } from "react-router-dom";
+import {
+  Layout,
+  Menu,
+  //, Breadcrumb
+} from "antd";
 const { Header, Content, Footer, Sider } = Layout;
 
 import About from "./About";
-import Blue from "./Blue";
+// import Blue from "./Blue";
 import Paint from "./paint";
 
 export default () => {
   const [collapsed, setCollapsed] = useState(false);
+  const items = [
+    { label: "About", key: "About" }, // 菜单项务必填写 key
+    { label: "Paint", key: "Paint" },
+  ];
   return (
     <Layout
       style={{
@@ -30,17 +38,15 @@ export default () => {
         onCollapse={(value) => setCollapsed(value)}
       >
         <div className="logo" />
-        <Menu theme="light" defaultSelectedKeys={["2"]} mode="inline">
-          <Menu.Item key="2">
-            <Link to="/about">About</Link>
-          </Menu.Item>
-          <Menu.Item key="3">
-            <Link to="/blue">Blue</Link>
-          </Menu.Item>
-          <Menu.Item key="4">
-            <Link to="/paint">Paint</Link>
-          </Menu.Item>
-        </Menu>
+        <Menu
+          theme="light"
+          defaultSelectedKeys={["2"]}
+          mode="inline"
+          items={items}
+          onClick={({ key }) => {
+            window.location.hash = `/${key}`;
+          }}
+        ></Menu>
       </Sider>
       <Layout className="site-layout">
         <Header
@@ -54,19 +60,18 @@ export default () => {
             margin: "0 16px",
           }}
         >
-          <Breadcrumb
+          {/* <Breadcrumb
             style={{
               margin: "16px 0",
             }}
           >
             <Breadcrumb.Item>User</Breadcrumb.Item>
             <Breadcrumb.Item>Bill</Breadcrumb.Item>
-          </Breadcrumb>
+          </Breadcrumb> */}
           <Routes>
             <Route path="about" element={<About />}></Route>
-            <Route path="blue" element={<Blue />}></Route>
+            {/* <Route path="blue" element={<Blue />}></Route> */}
             <Route path="paint" element={<Paint />}></Route>
-
           </Routes>
         </Content>
         <Footer

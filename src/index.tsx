@@ -4,11 +4,11 @@
  * @Author: chengweihang
  * @Date: 2022-05-30 16:40:01
  * @LastEditors: chengweihang
- * @LastEditTime: 2022-06-01 10:14:14
+ * @LastEditTime: 2022-06-20 14:38:58
  */
 import React from "react";
-import ReactDOM from "react-dom";
-import { HashRouter, Routes,Route } from "react-router-dom";
+import { HashRouter, Routes, Route } from "react-router-dom";
+import { createRoot } from "react-dom/client";
 
 import "./index.less";
 
@@ -22,5 +22,5 @@ const App = () => {
     </HashRouter>
   );
 };
-
-ReactDOM.render(<App />, document.getElementById("root"));
+const root = createRoot(document.getElementById("root"));
+root.render(<App />);
