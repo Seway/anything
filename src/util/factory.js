@@ -4,7 +4,7 @@
  * @Author: chengweihang
  * @Date: 2022-06-09 14:25:40
  * @LastEditors: chengweihang
- * @LastEditTime: 2022-06-20 15:21:55
+ * @LastEditTime: 2022-06-20 15:32:35
  */
 
 const pending = 'pending';
@@ -67,6 +67,43 @@ const getViewData = ({
         ports: getPortsData(id, viewData.actionList, viewData.eventList)
     };
 };
+
+
+const nodeAnimation = (item) => {
+    return new Promise((resolve) => {
+        const graph = window._graph,
+            target = graph.getNodes().find(node => node.id == item.id);
+        //设置激活样式
+        target.attr({
+            rect: {
+                strokeWidth: 1,
+                stroke: '#5F95FF',
+                fill: '#5F95FF',
+            },
+            label: {
+                fontWeight: 'bold',
+                fill: 'red',
+                fontSize: 16,
+            }
+        });
+        setTimeout(() => {
+            //还原为默认样式
+            target.attr({
+                rect: {
+                    strokeWidth: 1,
+                    stroke: '#5F95FF',
+                    fill: '#5F95FF',
+                },
+                label: {
+                    fontWeight: 'bold',
+                    fill: '#ffffff',
+                    fontSize: 16,
+                }
+            });
+            resolve();
+        }, 1000);
+    });
+};
 class Node {
     constructor({
         id = undefined,
@@ -111,41 +148,13 @@ class Node {
             nextTask.forEach((item) => {
                 //动画效果
                 if (window._graph) {
-                    const graph = window._graph,
-                        target = graph.getNodes().find(node => node.id == item.id);
-                    //设置激活样式
-                    target.attr({
-                        rect: {
-                            strokeWidth: 1,
-                            stroke: '#5F95FF',
-                            fill: '#5F95FF',
-                        },
-                        label: {
-                            fontWeight: 'bold',
-                            fill: 'red',
-                            fontSize: 16,
-                        }
-                    });
-                    setTimeout(() => {
-                        //还原为默认样式
-                        target.attr({
-                            rect: {
-                                strokeWidth: 1,
-                                stroke: '#5F95FF',
-                                fill: '#5F95FF',
-                            },
-                            label: {
-                                fontWeight: 'bold',
-                                fill: '#ffffff',
-                                fontSize: 16,
-                            }
-                        });
+                    nodeAnimation(item).then(() => {
                         //激发下个节点
                         this.parentFind(item.id).execute({
                             data: this.transformData(result),
                             actionName: item.actionName
                         });
-                    }, 1000);
+                    });
                 }
                 //动画效果 结束
                 else {
@@ -204,18 +213,6 @@ class ActionNode extends Node {
             type: 'action',
             ...data
         });
-        // this.viewData = {
-        //     id: this.id,
-        //     shape: "er-rect",
-        //     label: "组件" + this.id,
-        //     width: 150,
-        //     height: 24,
-        //     position: {
-        //         x: 24,
-        //         y: 150,
-        //     },
-        //     ports: getPortsData(this.id, ['显示', '隐藏'], ['数据请求完成', '单击', '初始化完成'])
-        // };
     }
     execute_inner({
         // actionName
@@ -254,20 +251,6 @@ class JudgeTask extends Node {
             type: 'judge',
             ...data
         });
-        // this.viewData = {
-        //     id: this.id,
-        //     shape: "er-rect",
-        //     label: "判断" + this.id,
-        //     width: 150,
-        //     height: 24,
-        //     position: {
-        //         x: 24,
-        //         y: 150,
-        //     },
-        //     ports: getPortsData(this.id, ['判断'], ['是', '否'])
-        // };
-        // this.fulTask = [];
-        // this.rejTask = [];
     }
     execute_inner({
         data
@@ -302,16 +285,15 @@ class FilterTask extends Node {
     }
 }
 
-const classList = [
+const nodeMap = new Map([
     ['action', ActionNode],
     ['enter', EnterTask],
     ['judge', JudgeTask],
     ['filter', FilterTask],
-];
+]);
 class NodeEnvironment {
     constructor(list = []) {
         this.nodeList = [];
-        this.nodeMap = new Map(classList);
 
         this.dndNode = null;
         list.forEach(item => {
@@ -320,7 +302,7 @@ class NodeEnvironment {
     }
     createNode(type, data = undefined) {
         let newNode = null;
-        const func = this.nodeMap.get(type);
+        const func = nodeMap.get(type);
         if (data === undefined) newNode = new func();
         else newNode = new func(data);
         newNode.parentFind = this.findNode.bind(this);
@@ -333,9 +315,10 @@ class NodeEnvironment {
             })
         };
     }
+    //创建拖拽时存在的节点
     createDndNode(type) {
         let newNode = null;
-        const func = this.nodeMap.get(type);
+        const func = nodeMap.get(type);
         newNode = new func();
         newNode.parentFind = this.findNode.bind(this);
 
@@ -348,10 +331,10 @@ class NodeEnvironment {
             })
         };
     }
+    //拖拽节点放置后,回调
     setDndNode() {
         this.nodeList.push(this.dndNode);
         this.dndNode = null;
-
     }
     findNode(id) {
         return this.nodeList.find((item) => item.id == id);
