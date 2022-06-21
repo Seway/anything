@@ -161,7 +161,11 @@ export default () => {
         },
         scroller: {
             enabled: true,
-            pannable: true,
+            pannable: {
+                enabled: true,
+                // 默认情况下只支持左键平移
+                eventTypes: ['rightMouseDown']
+            },
             autoResize: false,
             padding: 0
         },
@@ -290,11 +294,17 @@ export default () => {
     //连接线动作 end
 
 
-    //点动作 start
-    // 鼠标 Hover 时添加删除按钮
-    graph.on('node:mouseenter', ({
+    graph.on('node:click', ({
         node
     }) => {
+        console.log(node);
+        //向系统抛出事件
+    });
+
+    graph.on('node:selected', ({
+        node
+    }) => {
+        // 鼠标 Hover 时添加删除按钮
         node.addTools({
             name: 'button-remove',
             args: {
@@ -320,12 +330,7 @@ export default () => {
 
             },
         });
-
-    });
-
-    graph.on('node:mouseenter', ({
-        node
-    }) => {
+        // 鼠标 Hover 时添加按钮
         node.addTools({
             name: 'button',
             args: {
@@ -401,24 +406,14 @@ export default () => {
 
             },
         });
-
+        // code here
     });
-    // 鼠标移开时删除删除按钮
-    graph.on('node:mouseleave', ({
+
+    graph.on('node:unselected', ({
         node
     }) => {
         node.removeTools();
     });
-    //点动作 end
-
-
-    graph.on('node:click', ({
-        node
-    }) => {
-        console.log(node);
-        //向系统抛出事件
-    });
-
     //根据数据初始化时渲染 start
     const cells = [];
     arr.forEach((item) => {

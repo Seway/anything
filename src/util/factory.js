@@ -4,7 +4,7 @@
  * @Author: chengweihang
  * @Date: 2022-06-09 14:25:40
  * @LastEditors: chengweihang
- * @LastEditTime: 2022-06-20 15:46:48
+ * @LastEditTime: 2022-06-20 17:16:19
  */
 
 const pending = 'pending';
@@ -197,6 +197,7 @@ class Node {
     //视图层使用的工具函数
 
     addTargetAction(newTask) {
+        console.log(newTask);
         this.targetActionList.push(newTask);
     }
     deleteTargetAction(oldTask) {
