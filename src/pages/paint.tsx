@@ -4,29 +4,22 @@
  * @Author: chengweihang
  * @Date: 2022-05-30 16:40:01
  * @LastEditors: chengweihang
- * @LastEditTime: 2022-06-21 15:43:49
+ * @LastEditTime: 2022-06-21 16:58:14
  */
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 
 import setGraph, { center } from "../util/demo";
 import Drawer from "../pages/Drawer";
+import store from "../store";
+
 import "./paint.less";
-
-// let graph, dnd, oNmessage;
-// setTimeout(() => {
-//   const result = setGraph();
-//   graph = result.graph;
-//   dnd = result.dnd;
-//   oNmessage = result.oNmessage;
-// }, 0);
 export default () => {
-  const [selectedList, setSelectedList] = useState([]);
   let graph, dnd;
-
   useEffect(() => {
-    const result = setGraph();
+    const result = setGraph({ store });
     graph = result.graph;
     dnd = result.dnd;
+    // store.subscribe(() => console.log(store.getState()));
   }, []);
   const startDrag = (e) => {
     const target = e.currentTarget;
@@ -49,7 +42,7 @@ export default () => {
       </div>
       <div className="paint" id="container"></div>
       <div id="miniMap"></div>
-      <Drawer selectedList={selectedList} setSelectedList={setSelectedList} />
+      <Drawer />
     </div>
   );
 };

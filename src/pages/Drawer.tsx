@@ -4,31 +4,34 @@
  * @Author: chengweihang
  * @Date: 2022-06-21 13:36:24
  * @LastEditors: chengweihang
- * @LastEditTime: 2022-06-21 15:04:18
+ * @LastEditTime: 2022-06-21 17:02:53
  */
 
 import React, {
-  //useState,
-  useEffect,
+  useState,
+  //   useEffect,
 } from "react";
 import { Collapse } from "antd";
 const { Panel } = Collapse;
+import store from "../store";
 
 import "./Drawer.less";
-export default (props) => {
-  //   const [selectedList, setSelectedList] = useState([]);
-  useEffect(() => {
-    console.log(props.selectedList);
-  }, [props]);
+export default () => {
+  const [selectedList, setSelectedList] = useState([]);
+  store.subscribe(() => {
+    setSelectedList(store.getState().query);
+    console.log(store.getState());
+  });
+
   const onChange = (key) => {
     console.log(key);
   };
   return (
     <div className="drawer">
       <Collapse onChange={onChange}>
-        {props.selectedList.map((node) => (
-          <Panel header={node.name} key={node.id}>
-            <p>{JSON.stringify(node)}</p>
+        {selectedList.map((node) => (
+          <Panel header={node.id} key={node.id}>
+            <p>{JSON.stringify(node.ports)}</p>
           </Panel>
         ))}
       </Collapse>

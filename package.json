@@ -46,6 +46,7 @@
     "html-webpack-plugin": "^5.5.0",
     "react-draggable": "^4.4.5",
     "react-router-dom": "6",
+    "redux": "^4.2.0",
     "webpack": "^5.70.0",
     "webpack-cli": "^4.9.2"
   },

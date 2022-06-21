@@ -14,7 +14,9 @@ const center = new NodeEnvironment(localStorage.getItem('center') ? JSON.parse(l
 
 
 
-export default () => {
+export default ({
+    store
+}) => {
     //初始化数据
     const arr = localStorage.getItem('nodes') ? JSON.parse(localStorage.getItem('nodes')) : [],
         connect = localStorage.getItem('edges') ? JSON.parse(localStorage.getItem('edges')) : [];
@@ -407,18 +409,25 @@ export default () => {
 
             },
         });
-        // code here
-        // console.log(selectedList,setSelectedList);
-        // emitMessage({
-        //     id: node.id,
-        //     name: node.id
-        // });
+        store.dispatch({
+            type: "query/Describe",
+            arg: node
+        });
     });
 
     graph.on('node:unselected', ({
         node
     }) => {
+        store.dispatch({
+            type: "query/Unsubscribe",
+            arg: node
+        });
         node.removeTools();
+    });
+    graph.on('node:contextmenu', ({
+        node
+    }) => {
+        console.log('触发右键菜单', node);
     });
     //根据数据初始化时渲染 start
     const cells = [];
