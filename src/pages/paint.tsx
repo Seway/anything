@@ -4,50 +4,40 @@
  * @Author: chengweihang
  * @Date: 2022-05-30 16:40:01
  * @LastEditors: chengweihang
- * @LastEditTime: 2022-06-20 15:04:27
+ * @LastEditTime: 2022-06-21 15:43:49
  */
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import setGraph, { center } from "../util/demo";
+import Drawer from "../pages/Drawer";
 import "./paint.less";
 
-let graph;
-let dnd;
-setTimeout(() => {
-  const result = setGraph();
-  graph = result.graph;
-  dnd = result.dnd;
-}, 0);
+// let graph, dnd, oNmessage;
+// setTimeout(() => {
+//   const result = setGraph();
+//   graph = result.graph;
+//   dnd = result.dnd;
+//   oNmessage = result.oNmessage;
+// }, 0);
 export default () => {
-  const [nodeType, setNodeType] = useState("action");
-  //渲染链接效果
-  const addNode = (type) => {
-    const newNode = center.createNode(type);
-    //视图新建
-    graph.resetCells([
-      ...graph.getNodes(),
-      ...graph.getEdges(),
-      graph.createNode(newNode.viewData),
-    ]);
-  };
+  const [selectedList, setSelectedList] = useState([]);
+  let graph, dnd;
 
+  useEffect(() => {
+    const result = setGraph();
+    graph = result.graph;
+    dnd = result.dnd;
+  }, []);
   const startDrag = (e) => {
     const target = e.currentTarget;
     const type = target.getAttribute("data-type");
     const newNode = center.createDndNode(type);
     const node = graph.createNode(newNode.viewData);
-
     dnd.start(node, e.nativeEvent);
   };
+
   return (
     <div className="top">
-      <div>
-        <button onClick={() => addNode(nodeType)}>新建</button>
-        <select onChange={(e) => setNodeType(e.target.value)}>
-          <option value="action">action</option>
-          <option value="judge">judge</option>
-        </select>
-      </div>
       <div className="dnd-wrap">
         列表
         <div data-type="action" className="dnd-rect" onMouseDown={startDrag}>
@@ -59,6 +49,7 @@ export default () => {
       </div>
       <div className="paint" id="container"></div>
       <div id="miniMap"></div>
+      <Drawer selectedList={selectedList} setSelectedList={setSelectedList} />
     </div>
   );
 };

@@ -242,6 +242,7 @@ export default () => {
         },
 
     });
+
     //连接线动作 start
     graph.on('edge:mouseenter', ({
         edge
@@ -407,6 +408,11 @@ export default () => {
             },
         });
         // code here
+        // console.log(selectedList,setSelectedList);
+        // emitMessage({
+        //     id: node.id,
+        //     name: node.id
+        // });
     });
 
     graph.on('node:unselected', ({
