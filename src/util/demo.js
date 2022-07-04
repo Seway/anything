@@ -15,7 +15,7 @@ const center = new NodeEnvironment(localStorage.getItem('center') ? JSON.parse(l
 
 
 export default ({
-    store
+    // store
 }) => {
     //初始化数据
     const arr = localStorage.getItem('nodes') ? JSON.parse(localStorage.getItem('nodes')) : [],
@@ -304,7 +304,7 @@ export default ({
         //向系统抛出事件
     });
 
-    graph.on('node:selected', ({
+    graph.on('node:mouseenter', ({
         node
     }) => {
         // 鼠标 Hover 时添加删除按钮
@@ -409,19 +409,19 @@ export default ({
 
             },
         });
-        store.dispatch({
-            type: "query/Describe",
-            arg: node
-        });
+        // store.dispatch({
+        //     type: "query/Describe",
+        //     arg: node
+        // });
     });
 
-    graph.on('node:unselected', ({
+    graph.on('node:mouseleave', ({
         node
     }) => {
-        store.dispatch({
-            type: "query/Unsubscribe",
-            arg: node
-        });
+        // store.dispatch({
+        //     type: "query/Unsubscribe",
+        //     arg: node
+        // });
         node.removeTools();
     });
     graph.on('node:contextmenu', ({
